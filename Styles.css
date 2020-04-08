@@ -1,0 +1,33 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root {
+    --size: 30;
+}
+.container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+
+}
+.cell-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--size), 1fr);
+}
+.cell {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: 1px solid black;
+}
+.open-set {
+    background-color: yellow;
+}
+.closed-set {
+    background-color: red;
+}
+.path {
+    background-color: blue;
+}
