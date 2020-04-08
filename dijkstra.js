@@ -96,6 +96,7 @@
                 if(this.parent != null) {
                     
                 }
+                console.log("reached")
                 return 1;
             }
             removeFromArray(openSet, current);
