@@ -1,9 +1,10 @@
 {
     const cellContainer = document.getElementById("cell-grid");
+    const dijkstraButton = document.getElementById("dijkstra");
 
     const size = 20;
     const cols = 30;
-    const rows = 30;
+    const rows = 60;
 
     function calcDist(node1, node2) {
         return Math.sqrt(((node1.i - node2.i) * (node1.i - node2.i)) + ((node1.j - node2.j) * (node1.j - node2.j)))
@@ -28,10 +29,11 @@
             this.i = i;
             this.j = j;
             this.neighbors = [];
-            this.distance = 0;
+            this.distance = this.weight;
             this.weight = 0;
             this.element = null;
             this.parent = null;
+            this.wall = false;
         }
         setNeighbors(grid) {
             if(this.i > 0) {
@@ -49,6 +51,12 @@
         }
         setDist(dist) {
             this.distance = dist;
+        }
+        addWeight(amt) {
+            this.weight = amt;
+        }
+        setWall(boolean) {
+            this.wall = boolean;
         }
     }
 
@@ -69,6 +77,9 @@
             grid[i][j].element = document.createElement("div");
             grid[i][j].element.classList.add("cell");
             cellContainer.appendChild(grid[i][j].element);
+            if(grid[i][j].wall) {
+                grid[i][j].element.classList.add("wall")
+            }
         }
     }
     for(let i = 0; i < cols; i++) {
@@ -76,9 +87,28 @@
             grid[i][j].setNeighbors(grid);
         }
     }
+
+    const speed = 5;
+
+    for(let i = 0; i < cols; i++) {
+        for(let j = 0; j < rows; j++) {
+            grid[i][j].element.addEventListener("click", handleClick);
+        }
+    }
+    function handleClick(e) {
+        const node = e.target;
+        node.classList.add("wall");
+        for(let i = 0; i < cols; i++) {
+            for(let j = 0; j < rows; j++) {
+                if(grid[i][j].element.classList.contains("wall")) {
+                    grid[i][j].setWall(true);
+                }
+            }
+        }
+
+    }
     
     async function Djkstras(grid, start, goal) {
-        let path = [];
         let openSet = [];
         let closedSet = [];
         for(let i = 0; i < cols; i++) {
@@ -91,10 +121,13 @@
         let current;
         while(openSet.length > 0) {
             current = openSet.shift();
-            if(current === goal) {
-                
-                if(this.parent != null) {
-                    
+            if(current === goal) { 
+                const path = []; 
+                while(current.parent != null) {
+                    path.push(current);
+                    current.element.classList.add("path")
+                    current = current.parent;
+                    await sleep(10);
                 }
                 console.log("reached")
                 return 1;
@@ -103,12 +136,19 @@
             closedSet.push(current);
             current.element.classList.remove("open-set");
             current.element.classList.add("closed-set");
-            await sleep(15);
+            await sleep(speed);
             let neighbors = [];
             current.neighbors.forEach(neighbor => {
-                if(neighbor.distance == Infinity && !closedSet.includes(neighbor)) {
-                    neighbor.setDist(calcDist(start, neighbor));
-                    neighbors.push(neighbor);
+                if(neighbor.distance == Infinity && !neighbor.wall) {
+                    let temp = calcDist(current, neighbor) + current.distance;
+                    neighbor.parent = current;
+                    if(openSet.includes(neighbor) && neighbor.distance > temp) {
+                        neighbor.setDist(temp);
+                    } else {
+                        neighbor.setDist(calcDist(neighbor, current) + current.distance)
+                        neighbors.push(neighbor);
+                    }
+                    console.log(neighbor)
                 }
             });
             if(neighbors.length > 0) {
@@ -117,13 +157,16 @@
                     openSet.push(neighbor);
                     neighbor.element.classList.add("open-set")
                 });
-                await sleep(15);
+                await sleep(speed);
             }
 
         }
         console.log("Not reached");
         return -1;
     } 
-    Djkstras(grid, grid[cols / 2][rows / 2], grid[0][0]);
+
+    dijkstraButton.addEventListener("click", () => {
+        Djkstras(grid, grid[cols / 2][rows / 2], grid[0][0]);
+    })
      
 }

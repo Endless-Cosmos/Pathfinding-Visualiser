@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 :root {
-    --size: 30;
+    --size: 60;
 }
 .container {
     width: 100vw;
@@ -30,4 +30,7 @@
 }
 .path {
     background-color: blue;
+}
+.wall {
+    background-color: black;
 }
