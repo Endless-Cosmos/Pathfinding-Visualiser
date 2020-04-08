@@ -88,25 +88,39 @@
         }
     }
 
-    const speed = 5;
+    const speed = 10;
+
+    let pressed = false;
+
+    document.body.addEventListener("mousedown", () => {
+        pressed = true;
+        console.log(pressed)
+    })
+    document.body.addEventListener("mouseup", () => {
+        pressed = false;
+        console.log(pressed)
+    })
 
     for(let i = 0; i < cols; i++) {
         for(let j = 0; j < rows; j++) {
-            grid[i][j].element.addEventListener("click", handleClick);
+                grid[i][j].element.addEventListener("mousemove", handleClick);
         }
     }
     function handleClick(e) {
-        const node = e.target;
-        node.classList.add("wall");
-        for(let i = 0; i < cols; i++) {
-            for(let j = 0; j < rows; j++) {
-                if(grid[i][j].element.classList.contains("wall")) {
-                    grid[i][j].setWall(true);
+        if(pressed) {
+            const node = e.target;
+            node.classList.add("wall");
+            for(let i = 0; i < cols; i++) {
+                for(let j = 0; j < rows; j++) {
+                    if(grid[i][j].element.classList.contains("wall")) {
+                        grid[i][j].setWall(true);
+                    }
                 }
             }
         }
-
     }
+
+    let gridOccupied = false;
     
     async function Djkstras(grid, start, goal) {
         let openSet = [];
@@ -121,6 +135,7 @@
         let current;
         while(openSet.length > 0) {
             current = openSet.shift();
+            current.element.classList.add("current")
             if(current === goal) { 
                 const path = []; 
                 while(current.parent != null) {
@@ -137,6 +152,7 @@
             current.element.classList.remove("open-set");
             current.element.classList.add("closed-set");
             await sleep(speed);
+            current.element.classList.remove("current")
             let neighbors = [];
             current.neighbors.forEach(neighbor => {
                 if(neighbor.distance == Infinity && !neighbor.wall) {
@@ -166,7 +182,10 @@
     } 
 
     dijkstraButton.addEventListener("click", () => {
-        Djkstras(grid, grid[cols / 2][rows / 2], grid[0][0]);
+        if(!gridOccupied) {
+            gridOccupied = true;
+            Djkstras(grid, grid[cols - 1][rows - 1], grid[0][0]);
+        }
     })
      
 }

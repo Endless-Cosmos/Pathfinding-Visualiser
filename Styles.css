@@ -6,11 +6,29 @@
 :root {
     --size: 60;
 }
-.container {
-    width: 100vw;
+nav {
+    display: flex;
+    height: 50px;
+    align-items: center;
+    background-color: #333;
+}
+.button {
+    width: 100px;
+    height: 80%;
+    margin-left: 5px;
+    outline: none;
+    border: none;
+    background-color: lightgray;
+    border-radius: 10%;
+    cursor: pointer;
+}
+.button:hover {
+    transform: scale(1.05);
+}
+.grid-container {
     display: flex;
     justify-content: center;
-
+    overflow: scroll;
 }
 .cell-grid {
     display: grid;
@@ -20,17 +38,33 @@
     width: 20px;
     height: 20px;
     display: inline-block;
-    border: 1px solid black;
+    border: 1px solid lightgray;
 }
 .open-set {
     background-color: yellow;
+    animation-name: visited;
+    animation-duration: 200ms;
 }
 .closed-set {
     background-color: red;
+    animation-name: visited;
+    animation-duration:200ms;
+
 }
 .path {
     background-color: blue;
 }
 .wall {
     background-color: black;
+}
+@keyframes visited {
+    from {
+        transform: scale(1.4);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+.current {
+    background-color: purple;
 }
