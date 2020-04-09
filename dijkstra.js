@@ -1,17 +1,18 @@
 {
     const cellContainer = document.getElementById("cell-grid");
     const dijkstraButton = document.getElementById("dijkstra");
+    const clearWallsButton = document.getElementById("clear-walls")
 
-    const size = 20;
+    //switch these
     const cols = 30;
     const rows = 60;
 
     function calcDist(node1, node2) {
         return Math.sqrt(((node1.i - node2.i) * (node1.i - node2.i)) + ((node1.j - node2.j) * (node1.j - node2.j)))
     }
-    function calcManhattenDist(node1, node2) {
-        return Math.abs(node1.i )
-    } 
+    // function calcManhattenDist(node1, node2) {
+    //     return Math.abs(node1.i )
+    // } 
     async function sleep(ms) {
         return new Promise(res => setTimeout(res, ms));
     } 
@@ -34,6 +35,8 @@
             this.element = null;
             this.parent = null;
             this.wall = false;
+            this.start = false;
+            this.end = false;
         }
         setNeighbors(grid) {
             if(this.i > 0) {
@@ -114,13 +117,56 @@
                 for(let j = 0; j < rows; j++) {
                     if(grid[i][j].element.classList.contains("wall")) {
                         grid[i][j].setWall(true);
+                        console.log("wall")
                     }
                 }
             }
         }
     }
+    clearWallsButton.addEventListener("click", () => {
+        for(let i = 0; i < cols; i++) {
+            for(let j = 0; j < rows; j++) {
+                if(grid[i][j].wall) {
+                    grid[i][j].setWall(false);
+                    grid[i][j].element.classList.remove("wall");
+                }
+            }
+        }
+    })
 
     let gridOccupied = false;
+
+    let start, end;
+
+    function setStart(i, j) {
+        for(let i = 0; i < cols; i++) {
+            for(let j = 0; j < rows; j++) {
+                if(grid[i][j].start = true) {
+                    grid[i][j].start = false;
+                    grid[i][j].element.classList.remove("start")
+                }
+            }
+        }
+        grid[i][j].start = true;
+        start = grid[i][j];
+        grid[i][j].element.classList.add("start")
+    }
+    function setEnd(i, j) {
+        for(let i = 0; i < cols; i++) {
+            for(let j = 0; j < rows; j++) {
+                if(grid[i][j].end = true) {
+                    grid[i][j].end = false;
+                    grid[i][j].element.classList.remove("end")
+                }
+            }
+        }
+        grid[i][j].end = true;
+        end = grid[i][j];
+        grid[i][j].element.classList.add("end")
+    }
+
+    setStart(3, 3);
+    setEnd(18, 18);
     
     async function Djkstras(grid, start, goal) {
         let openSet = [];
@@ -184,7 +230,7 @@
     dijkstraButton.addEventListener("click", () => {
         if(!gridOccupied) {
             gridOccupied = true;
-            Djkstras(grid, grid[cols - 1][rows - 1], grid[0][0]);
+            Djkstras(grid, start, end);
         }
     })
      

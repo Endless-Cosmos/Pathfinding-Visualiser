@@ -66,5 +66,11 @@ nav {
     }
 }
 .current {
-    background-color: purple;
+    background-color: black;
+}
+.start {
+    background-color: green;
+}
+.end {
+    background-color: orange;
 }
