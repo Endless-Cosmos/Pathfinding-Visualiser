@@ -1,5 +1,5 @@
     import { cols, rows, sleep, removeFromArray, speed, calcDist } from "./main.js";
-    
+
     export default async function Dijkstra(grid, start, goal) {
         let openSet = [];
         let closedSet = [];
