@@ -1,14 +1,14 @@
     import { cols, rows, sleep, removeFromArray, speed, calcDist } from "./main.js";
     
-    export default async function Dijkstra(grid, start, goal) {
+    export default async function dijkstra(grid, start, goal) {
         let openSet = [];
         let closedSet = [];
         for(let i = 0; i < cols; i++) {
             for(let j = 0; j < rows; j++) {
-                grid[i][j].setDist(Infinity);
+                grid[i][j].setG(Infinity);
             }
         }
-        start.setDist(0);
+        start.setG(0);
         openSet.push(start);
         let current;
         while(openSet.length > 0) {
@@ -33,20 +33,19 @@
             current.element.classList.remove("current")
             let neighbors = [];
             current.neighbors.forEach(neighbor => {
-                if(neighbor.distance == Infinity && !neighbor.wall) {
-                    let temp = calcDist(current, neighbor) + current.distance;
+                if(neighbor.g == Infinity && !neighbor.wall) {
+                    let temp = calcDist(current, neighbor) + current.g;
                     neighbor.parent = current;
-                    if(openSet.includes(neighbor) && neighbor.distance > temp) {
-                        neighbor.setDist(temp);
+                    if(openSet.includes(neighbor) && neighbor.g > temp) {
+                        neighbor.setG(temp);
                     } else {
-                        neighbor.setDist(calcDist(neighbor, current) + current.distance)
+                        neighbor.setG(calcDist(neighbor, current) + current.g)
                         neighbors.push(neighbor);
                     }
-                    console.log(neighbor)
                 }
             });
             if(neighbors.length > 0) {
-                neighbors.sort((a, b) => a.distance - b.distance);
+                neighbors.sort((a, b) => a.g - b.g);
                 neighbors.forEach(neighbor => {
                     openSet.push(neighbor);
                     neighbor.element.classList.add("open-set")

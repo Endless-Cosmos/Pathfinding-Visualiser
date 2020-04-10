@@ -1,5 +1,6 @@
 
-    import Dijkstra from "./dijkstra.js";    
+    import dijkstra from "./dijkstra.js";  
+    import aStar from "./a-star.js";  
 
     const cellContainer = document.getElementById("cell-grid");
     const dijkstraButton = document.getElementById("dijkstra");
@@ -58,8 +59,8 @@
                 this.neighbors.push(grid[this.i][this.j + 1])
             }
         }
-        setDist(dist) {
-            this.distance = dist;
+        setG(g) {
+            this.g = g;
         }
         setH(h) {
             this.h = h;
@@ -171,14 +172,14 @@
         grid[i][j].element.classList.add("end")
     }
 
-    setStart(3, 3);
-    setEnd(18, 18);
+    setStart(0, 0);
+    setEnd(20, 20);
     
 
     dijkstraButton.addEventListener("click", () => {
         if(!gridOccupied) {
             gridOccupied = true;
-            Dijkstra(grid, start, end);
+            aStar(grid, start, end);
         }
     })
 

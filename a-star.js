@@ -1,14 +1,14 @@
     import { cols, rows, sleep, removeFromArray, speed, calcDist } from "./main.js";
 
-    export default async function Dijkstra(grid, start, goal) {
+    export default async function aStar(grid, start, goal) {
         let openSet = [];
         let closedSet = [];
         for(let i = 0; i < cols; i++) {
             for(let j = 0; j < rows; j++) {
-                grid[i][j].setDist(Infinity);
+                grid[i][j].setG(Infinity);
             }
         }
-        start.setDist(0);
+        start.setG(0);
         openSet.push(start);
         let current;
         while(openSet.length > 0) {
@@ -31,29 +31,23 @@
             current.element.classList.add("closed-set");
             await sleep(speed);
             current.element.classList.remove("current")
-            let neighbors = [];
             current.neighbors.forEach(neighbor => {
-                if(neighbor.distance == Infinity && !neighbor.wall) {
+                if(!closedSet.includes(neighbor) && !neighbor.wall) {
                     let temp = calcDist(current, neighbor) + current.distance;
                     neighbor.parent = current;
-                    if(openSet.includes(neighbor) && neighbor.distance > temp) {
-                        neighbor.setDist(temp);
+                    if(openSet.includes(neighbor) && neighbor.g > temp) {
+                        neighbor.setG(temp);
                     } else {
-                        neighbor.setDist(calcDist(neighbor, current) + current.distance)
-                        neighbors.push(neighbor);
+                        neighbor.setG(calcDist(neighbor, current) + current.g)
+                        openSet.push(neighbor);
+                        neighbor.element.classList.add("open-set")
+                        neighbor.setH(calcDist(neighbor, goal))
                     }
-                    console.log(neighbor)
+                    neighbor.f = neighbor.g + neighbor.h;
                 }
             });
-            if(neighbors.length > 0) {
-                neighbors.sort((a, b) => a.distance - b.distance);
-                neighbors.forEach(neighbor => {
-                    openSet.push(neighbor);
-                    neighbor.element.classList.add("open-set")
-                });
+                openSet.sort((a, b) => a.f - b.f);
                 await sleep(speed);
-            }
-
         }
         console.log("Not reached");
         return -1;
