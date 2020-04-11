@@ -31,28 +31,21 @@
             current.element.classList.add("closed-set");
             await sleep(speed);
             current.element.classList.remove("current")
-            let neighbors = [];
             current.neighbors.forEach(neighbor => {
-                if(neighbor.g == Infinity && !neighbor.wall) {
+                if(!closedSet.includes(neighbor) && !neighbor.wall) {
                     let temp = calcDist(current, neighbor) + current.g;
                     neighbor.parent = current;
                     if(openSet.includes(neighbor) && neighbor.g > temp) {
                         neighbor.setG(temp);
                     } else {
                         neighbor.setG(calcDist(neighbor, current) + current.g)
-                        neighbors.push(neighbor);
+                        openSet.push(neighbor);
+                        neighbor.element.classList.add("open-set");
                     }
                 }
             });
-            if(neighbors.length > 0) {
-                neighbors.sort((a, b) => a.g - b.g);
-                neighbors.forEach(neighbor => {
-                    openSet.push(neighbor);
-                    neighbor.element.classList.add("open-set")
-                });
+                openSet.sort((a, b) => a.g - b.g);
                 await sleep(speed);
-            }
-
         }
         console.log("Not reached");
         return -1;

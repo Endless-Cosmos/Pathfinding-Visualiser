@@ -1,6 +1,7 @@
 
     import dijkstra from "./dijkstra.js";  
     import aStar from "./a-star.js";  
+    import bfs from "/breadth-first-search.js";
 
     const cellContainer = document.getElementById("cell-grid");
     const dijkstraButton = document.getElementById("dijkstra");
@@ -35,8 +36,8 @@
             this.i = i;
             this.j = j;
             this.neighbors = [];
-            this.g = this.weight;
             this.weight = 0;
+            this.g = this.g + this.weight;
             this.element = null;
             this.parent = null;
             this.wall = false;
@@ -179,7 +180,7 @@
     dijkstraButton.addEventListener("click", () => {
         if(!gridOccupied) {
             gridOccupied = true;
-            aStar(grid, start, end);
+            dijkstra(grid, start, end);
         }
     })
 
