@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 :root {
-    --size: 60;
+    --size: 40;
 }
 nav {
     display: flex;
@@ -35,10 +35,11 @@ nav {
     grid-template-columns: repeat(var(--size), 1fr);
 }
 .cell {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     display: inline-block;
     border: 1px solid lightgray;
+    pointer-events: all;
 }
 .open-set {
     background-color: yellow;
@@ -53,9 +54,6 @@ nav {
 }
 .path {
     background-color: blue;
-}
-.wall {
-    background-color: black;
 }
 @keyframes visited {
     from {
@@ -73,4 +71,7 @@ nav {
 }
 .end {
     background-color: orange;
+}
+.wall {
+    background-color: black;
 }

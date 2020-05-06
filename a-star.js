@@ -2,9 +2,8 @@
 
     export default async function aStar(grid, start, goal) {
         let openSet = [];
-        let closedSet = [];
-        for(let i = 0; i < cols; i++) {
-            for(let j = 0; j < rows; j++) {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
                 grid[i][j].setG(Infinity);
             }
         }
@@ -20,19 +19,19 @@
                     path.push(current);
                     current.element.classList.add("path")
                     current = current.parent;
-                    await sleep(10);
+                    await sleep(speed);
                 }
                 console.log("reached")
                 return 1;
             }
             removeFromArray(openSet, current);
-            closedSet.push(current);
+            current.searched = true;
             current.element.classList.remove("open-set");
             current.element.classList.add("closed-set");
             await sleep(speed);
             current.element.classList.remove("current")
             current.neighbors.forEach(neighbor => {
-                if(!closedSet.includes(neighbor) && !neighbor.wall) {
+                if(!neighbor.searched && !neighbor.wall) {
                     let temp = calcDist(current, neighbor) + current.distance;
                     neighbor.parent = current;
                     if(openSet.includes(neighbor) && neighbor.g > temp) {

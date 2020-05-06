@@ -4,12 +4,12 @@
     import bfs from "/breadth-first-search.js";
 
     const cellContainer = document.getElementById("cell-grid");
-    const dijkstraButton = document.getElementById("dijkstra");
+    const startButton = document.getElementById("start");
     const clearWallsButton = document.getElementById("clear-walls")
 
     //switch these
-    export const cols = 30;
-    export const rows = 60;
+    export const rows = 20;
+    export const cols = 40;
     export const speed = 10;
 
 
@@ -23,7 +23,7 @@
         return new Promise(res => setTimeout(res, ms));
     } 
     export function removeFromArray(arr, el) {
-        for(let i = arr.length - 1; i > 0; i--) {
+        for(let i = arr.length - 1; i >= 0; i--) {
             if(arr[i] === el) {
                 arr.splice(i, 1);
                 
@@ -35,6 +35,7 @@
         constructor(i, j) {
             this.i = i;
             this.j = j;
+            this.searched = null;
             this.neighbors = [];
             this.weight = 0;
             this.g = this.g + this.weight;
@@ -53,10 +54,10 @@
             if(this.j > 0) {
                 this.neighbors.push(grid[this.i][this.j - 1])
             }
-            if(this.i < cols - 1) {
+            if(this.i < rows - 1) {
                 this.neighbors.push(grid[this.i + 1][this.j])
             }
-            if(this.j < rows - 1) {
+            if(this.j < cols - 1) {
                 this.neighbors.push(grid[this.i][this.j + 1])
             }
         }
@@ -74,19 +75,17 @@
         }
     }
 
-
-
-    function create2dArray(cols, rows) {
-        let arr = new Array(cols)
-        for(let i = 0; i < cols; i++) {
-            arr[i] = new Array(rows);
+    function create2dArray(rows, cols) {
+        let arr = new Array(rows)
+        for(let i = 0; i < rows; i++) {
+            arr[i] = new Array(cols);
         }
         return arr;
     }
-    let grid = create2dArray(cols, rows);
+    let grid = create2dArray(rows, cols);
 
-    for(let i = 0; i < cols; i++) {
-        for(let j = 0; j < rows; j++) {
+    for(let i = 0; i < rows; i++) {
+        for(let j = 0; j < cols; j++) {
             grid[i][j] = new Node(i, j);
             grid[i][j].element = document.createElement("div");
             grid[i][j].element.classList.add("cell");
@@ -96,12 +95,18 @@
             }
         }
     }
-    for(let i = 0; i < cols; i++) {
-        for(let j = 0; j < rows; j++) {
+    for(let i = 0; i < rows; i++) {
+        for(let j = 0; j < cols; j++) {
             grid[i][j].setNeighbors(grid);
         }
     }
-    let pressed = false;
+
+    let start, end, pressed;
+    let gridOccupied = false;
+
+
+    setStart(5, 5);
+    setEnd(15, 30);
 
     document.body.addEventListener("mousedown", () => {
         pressed = true;
@@ -112,44 +117,61 @@
         console.log(pressed)
     })
 
-    for(let i = 0; i < cols; i++) {
-        for(let j = 0; j < rows; j++) {
-                grid[i][j].element.addEventListener("mousemove", handleClick);
+    for(let i = 0; i < rows; i++) {
+        for(let j = 0; j < cols; j++) {
+                //grid[i][j].element.addEventListener("mousemove", handleMoveStart);
+                grid[i][j].element.addEventListener("mousemove", handlePlaceWallClick);
         }
     }
-    function handleClick(e) {
-        if(pressed) {
-            const node = e.target;
-            node.classList.add("wall");
-            for(let i = 0; i < cols; i++) {
-                for(let j = 0; j < rows; j++) {
-                    if(grid[i][j].element.classList.contains("wall")) {
-                        grid[i][j].setWall(true);
-                        console.log("wall")
+    // function handleMoveStart(e) {
+    //     e.preventDefault()
+    //     const nodeElement = e.target;
+    //     if(!nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall") && pressed) {
+    //         nodeElement.classList.add("start");
+    //         if(nodeElement.classList.contains("start")) {
+    //             for(let i = 0; i < rows; i++) {
+    //                 for(let j = 0; j < cols; j++) {
+    //                     grid[i][j].element.classList.remove("start");
+    //                 }
+    //             }
+    //             nodeElement.classList.add("start")
+    //         } 
+
+
+    //     }
+    // }
+    function handlePlaceWallClick(e) {
+        e.preventDefault()
+        if(pressed && !gridOccupied) {
+            const nodeElement = e.target;
+            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end")) {
+                nodeElement.classList.add("wall");
+                for(let i = 0; i < rows; i++) {
+                    for(let j = 0; j < cols; j++) {
+                        if(grid[i][j].element.classList.contains("wall")) {
+                            grid[i][j].setWall(true);
+                            console.log("wall")
+                        }
                     }
                 }
             }
-        }
+        }  
     }
     clearWallsButton.addEventListener("click", () => {
-        for(let i = 0; i < cols; i++) {
-            for(let j = 0; j < rows; j++) {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
                 if(grid[i][j].wall) {
                     grid[i][j].setWall(false);
                     grid[i][j].element.classList.remove("wall");
                 }
             }
         }
-    })
-
-    let gridOccupied = false;
-
-    let start, end;
-
+    });
+   
     function setStart(i, j) {
-        for(let i = 0; i < cols; i++) {
-            for(let j = 0; j < rows; j++) {
-                if(grid[i][j].start = true) {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
+                if(grid[i][j].start === true) {
                     grid[i][j].start = false;
                     grid[i][j].element.classList.remove("start")
                 }
@@ -160,9 +182,9 @@
         grid[i][j].element.classList.add("start")
     }
     function setEnd(i, j) {
-        for(let i = 0; i < cols; i++) {
-            for(let j = 0; j < rows; j++) {
-                if(grid[i][j].end = true) {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
+                if(grid[i][j].end === true) {
                     grid[i][j].end = false;
                     grid[i][j].element.classList.remove("end")
                 }
@@ -172,15 +194,16 @@
         end = grid[i][j];
         grid[i][j].element.classList.add("end")
     }
-
-    setStart(0, 0);
-    setEnd(20, 20);
     
-
-    dijkstraButton.addEventListener("click", () => {
+    startButton.addEventListener("click", () => {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
+                grid[i][j].searched = false;
+            }
+        }
         if(!gridOccupied) {
             gridOccupied = true;
-            dijkstra(grid, start, end);
+            bfs(grid, start, end);
         }
     })
 
