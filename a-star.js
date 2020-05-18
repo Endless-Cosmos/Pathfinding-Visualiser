@@ -1,12 +1,7 @@
-    import { cols, rows, sleep, removeFromArray, speed, calcDist } from "./main.js";
+    import { cols, rows, sleep, removeFromArray, speed, calcDist, calcManhattenDist } from "./main.js";
 
     export default async function aStar(grid, start, goal) {
         let openSet = [];
-        for(let i = 0; i < rows; i++) {
-            for(let j = 0; j < cols; j++) {
-                grid[i][j].setG(Infinity);
-            }
-        }
         start.setG(0);
         openSet.push(start);
         let current;
@@ -32,15 +27,16 @@
             current.element.classList.remove("current")
             current.neighbors.forEach(neighbor => {
                 if(!neighbor.searched && !neighbor.wall) {
-                    let temp = calcDist(current, neighbor) + current.distance;
-                    neighbor.parent = current;
+                    let temp = calcDist(current, neighbor) + current.g;
                     if(openSet.includes(neighbor) && neighbor.g > temp) {
                         neighbor.setG(temp);
+                        neighbor.parent = current;
                     } else {
                         neighbor.setG(calcDist(neighbor, current) + current.g)
                         openSet.push(neighbor);
                         neighbor.element.classList.add("open-set")
                         neighbor.setH(calcDist(neighbor, goal))
+                        neighbor.parent = current;
                     }
                     neighbor.f = neighbor.g + neighbor.h;
                 }

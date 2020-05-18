@@ -14,11 +14,11 @@
 
 
     export function calcDist(node1, node2) {
-        return Math.sqrt(((node1.i - node2.i) * (node1.i - node2.i)) + ((node1.j - node2.j) * (node1.j - node2.j)))
+        return Math.sqrt(Math.pow((node2.i - node1.i), 2) + Math.pow((node2.j - node1.j), 2))
     }
-    // function calcManhattenDist(node1, node2) {
-    //     return Math.abs(node1.i )
-    // } 
+    export function calcManhattenDist(node1, node2) {
+        return Math.abs(node1.i - node2.i) + Math.abs(node1.j - node2.j);
+    } 
     export async function sleep(ms) {
         return new Promise(res => setTimeout(res, ms));
     } 
@@ -37,14 +37,14 @@
             this.searched = null;
             this.neighbors = [];
             this.weight = 0;
-            this.g = this.g + this.weight;
+            this.g = Infinity;
             this.element = null;
             this.parent = null;
             this.wall = false;
             this.start = false;
             this.end = false;
             this.h = 0;
-            this.f = 0;
+            this.f = Infinity;
         }
         setNeighbors(grid) {
             if(this.i > 0) {
@@ -207,7 +207,7 @@
         }
         if(!gridOccupied) {
             gridOccupied = true;
-            bfs(grid, start, end);
+            aStar(grid, start, end);
         }
     })
 

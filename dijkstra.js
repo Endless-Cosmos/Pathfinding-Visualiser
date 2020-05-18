@@ -2,11 +2,6 @@
     
     export default async function dijkstra(grid, start, goal) {
         let openSet = [];
-        for(let i = 0; i < rows; i++) {
-            for(let j = 0; j < cols; j++) {
-                grid[i][j].setG(Infinity);
-            }
-        }
         start.setG(0);
         openSet.push(start);
         let current;
@@ -33,13 +28,14 @@
             current.neighbors.forEach(neighbor => {
                 if(!neighbor.searched && !neighbor.wall) {
                     let temp = calcDist(current, neighbor) + current.g;
-                    neighbor.parent = current;
                     if(openSet.includes(neighbor) && neighbor.g > temp) {
                         neighbor.setG(temp);
+                        neighbor.parent = current;
                     } else {
                         neighbor.setG(calcDist(neighbor, current) + current.g)
                         openSet.push(neighbor);
                         neighbor.element.classList.add("open-set");
+                        neighbor.parent = current;
                     }
                 }
             });
