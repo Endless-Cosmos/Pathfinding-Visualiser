@@ -25,8 +25,7 @@
     export function removeFromArray(arr, el) {
         for(let i = arr.length - 1; i >= 0; i--) {
             if(arr[i] === el) {
-                arr.splice(i, 1);
-                
+                arr.splice(i, 1);    
             }
         }
     }
@@ -88,6 +87,8 @@
         for(let j = 0; j < cols; j++) {
             grid[i][j] = new Node(i, j);
             grid[i][j].element = document.createElement("div");
+            grid[i][j].element.setAttribute("data-index1", `${i}`)
+            grid[i][j].element.setAttribute("data-index2", `${j}`)
             grid[i][j].element.classList.add("cell");
             cellContainer.appendChild(grid[i][j].element);
             if(grid[i][j].wall) {
@@ -101,59 +102,62 @@
         }
     }
 
-    let start, end, pressed;
+    let start, end, pressed, overStart, overEnd
     let gridOccupied = false;
+    
 
 
     setStart(5, 5);
     setEnd(15, 30);
 
+
     document.body.addEventListener("mousedown", () => {
         pressed = true;
-        console.log(pressed)
     })
     document.body.addEventListener("mouseup", () => {
         pressed = false;
-        console.log(pressed)
+        overStart = false;
+        overEnd = false;
+    })
+    document.body.addEventListener("mousedown", e => {
+        if(e.target.classList.contains("start")) {
+            overStart = true;
+        }
+    })
+    document.body.addEventListener("mousedown", e => {
+        if(e.target.classList.contains("end")) {
+            overEnd = true;
+        }
     })
 
     for(let i = 0; i < rows; i++) {
         for(let j = 0; j < cols; j++) {
-                //grid[i][j].element.addEventListener("mousemove", handleMoveStart);
-                grid[i][j].element.addEventListener("mousemove", handlePlaceWallClick);
+            grid[i][j].element.addEventListener("mousemove", handleMoveStart);
+            grid[i][j].element.addEventListener("mousemove", handleMoveEnd);
+            grid[i][j].element.addEventListener("mousemove", handlePlaceWallClick);
         }
     }
-    // function handleMoveStart(e) {
-    //     e.preventDefault()
-    //     const nodeElement = e.target;
-    //     if(!nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall") && pressed) {
-    //         nodeElement.classList.add("start");
-    //         if(nodeElement.classList.contains("start")) {
-    //             for(let i = 0; i < rows; i++) {
-    //                 for(let j = 0; j < cols; j++) {
-    //                     grid[i][j].element.classList.remove("start");
-    //                 }
-    //             }
-    //             nodeElement.classList.add("start")
-    //         } 
-
-
-    //     }
-    // }
+    function handleMoveStart(e) {
+        e.preventDefault();
+        const nodeElement = e.target;
+        if(!nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall") && overStart && !gridOccupied) {
+            setStart(nodeElement.dataset.index1, nodeElement.dataset.index2);           
+        }
+    }
+    function handleMoveEnd(e) {
+        e.preventDefault();
+        const nodeElement = e.target;
+        if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("wall") && overEnd && !gridOccupied) {
+            setEnd(nodeElement.dataset.index1, nodeElement.dataset.index2);           
+        }
+    }
     function handlePlaceWallClick(e) {
         e.preventDefault()
         if(pressed && !gridOccupied) {
             const nodeElement = e.target;
             if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end")) {
                 nodeElement.classList.add("wall");
-                for(let i = 0; i < rows; i++) {
-                    for(let j = 0; j < cols; j++) {
-                        if(grid[i][j].element.classList.contains("wall")) {
-                            grid[i][j].setWall(true);
-                            console.log("wall")
-                        }
-                    }
-                }
+                grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWall(true);
             }
         }  
     }
@@ -173,7 +177,7 @@
             for(let j = 0; j < cols; j++) {
                 if(grid[i][j].start === true) {
                     grid[i][j].start = false;
-                    grid[i][j].element.classList.remove("start")
+                    grid[i][j].element.classList.remove("start");
                 }
             }
         }
