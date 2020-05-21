@@ -6,9 +6,12 @@
 
     const cellContainer = document.getElementById("cell-grid");
     const startButton = document.getElementById("start-button");
-    const clearWallsButton = document.getElementById("clear-walls-button")
+    const clearWallsButton = document.getElementById("clear-walls-button");
+    const dijkstraButton = document.getElementById("dijkstra")
+    const aStarButton = document.getElementById("a-star")
+    const BreadthFirstButton = document.getElementById("breadth-first");
+    const greedyBestFirstButton = document.getElementById("greedy-best-first");
 
-    //switch these
     const rows = 20;
     const cols = 40;
     export const speed = 10;
@@ -139,6 +142,36 @@
         }
     })
 
+    let isDijkstra = false;
+    let isAStar = false;
+    let isBreadthFirst = false;
+    let isGreedyBestFirst = false;
+
+    dijkstraButton.addEventListener("click", () => {
+        isDijkstra = true;
+        isAStar = true;
+        isBreadthFirst = false;
+        isGreedyBestFirst = false;
+    })
+    aStarButton.addEventListener("click", () => {
+        isDijkstra = false;
+        isAStar = true;
+        isBreadthFirst = false;
+        isGreedyBestFirst = false;
+    })
+    BreadthFirstButton.addEventListener("click", () => {
+        isDijkstra = false;
+        isAStar = false;
+        isBreadthFirst = true;
+        isGreedyBestFirst = false;
+    })
+    greedyBestFirstButton.addEventListener("click", () => {
+        isDijkstra = false;
+        isAStar = false;
+        isBreadthFirst = false;
+        isGreedyBestFirst = true;
+    })
+
     for(let i = 0; i < rows; i++) {
         for(let j = 0; j < cols; j++) {
             grid[i][j].element.addEventListener("mousemove", handleMoveStart);
@@ -215,8 +248,15 @@
             }
         }
         if(!gridOccupied) {
-            gridOccupied = true;
-            aStar(start, end);
+            if(isDijkstra) {
+                dijkstra(start, end);
+            } else if(isAStar) {
+                aStar(start, end);
+            } else if(isBreadthFirst) {
+                bfs(start, end);
+            } else if(isGreedyBestFirst) {
+                greedyBestFirst(start, end);
+            }
         }
     })
 
