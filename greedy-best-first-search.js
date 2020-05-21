@@ -1,6 +1,6 @@
-import { sleep, removeFromArray, speed, calcDist, path } from "./main.js";
-    
-export default async function bfs(start, goal) {
+import { sleep, removeFromArray, speed, calcDist, calcManhattenDist, path } from "./main.js";
+
+export default async function greedBestFirst(start, goal) {
     let openSet = [];
     openSet.push(start);
     let current;
@@ -19,13 +19,14 @@ export default async function bfs(start, goal) {
         await sleep(speed);
         current.element.classList.remove("current")
         current.neighbors.forEach(neighbor => {
-            if(!neighbor.searched && !neighbor.wall) {
-                    openSet.push(neighbor);
-                    neighbor.parent = current
-                    neighbor.element.classList.add("open-set");
-                }
-                
+            if(!neighbor.searched && !neighbor.wall) {                
+                openSet.push(neighbor);
+                neighbor.element.classList.add("open-set")
+                neighbor.setH(calcDist(neighbor, goal))
+                neighbor.parent = current;
+            }
         });
+            openSet.sort((a, b) => a.h - b.h);
             await sleep(speed);
     }
     console.log("Not reached");

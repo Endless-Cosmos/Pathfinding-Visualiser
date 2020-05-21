@@ -1,6 +1,6 @@
-    import { cols, rows, sleep, removeFromArray, speed, calcDist, calcManhattenDist } from "./main.js";
+    import { sleep, removeFromArray, speed, calcDist, calcManhattenDist, path } from "./main.js";
 
-    export default async function aStar(grid, start, goal) {
+    export default async function aStar(start, goal) {
         let openSet = [];
         start.setG(0);
         openSet.push(start);
@@ -9,13 +9,7 @@
             current = openSet.shift();
             current.element.classList.add("current")
             if(current === goal) { 
-                const path = []; 
-                while(current.parent != null) {
-                    path.push(current);
-                    current.element.classList.add("path")
-                    current = current.parent;
-                    await sleep(speed);
-                }
+                path(current)
                 console.log("reached")
                 return 1;
             }

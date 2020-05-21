@@ -2,14 +2,15 @@
     import dijkstra from "./dijkstra.js";  
     import aStar from "./a-star.js";  
     import bfs from "/breadth-first-search.js";
+    import greedyBestFirst from "./greedy-best-first-search.js";
 
     const cellContainer = document.getElementById("cell-grid");
-    const startButton = document.getElementById("start");
-    const clearWallsButton = document.getElementById("clear-walls")
+    const startButton = document.getElementById("start-button");
+    const clearWallsButton = document.getElementById("clear-walls-button")
 
     //switch these
-    export const rows = 20;
-    export const cols = 40;
+    const rows = 20;
+    const cols = 40;
     export const speed = 10;
 
 
@@ -29,6 +30,15 @@
             }
         }
     }
+    export async function path(current) {
+        const path = []; 
+            while(current.parent != null) {
+                path.push(current);
+                current.element.classList.add("path")
+                current = current.parent;
+                await sleep(speed);
+            }
+    }
 
     class Node {
         constructor(i, j) {
@@ -43,7 +53,7 @@
             this.wall = false;
             this.start = false;
             this.end = false;
-            this.h = 0;
+            this.h = Infinity;
             this.f = Infinity;
         }
         setNeighbors(grid) {
@@ -106,9 +116,8 @@
     let gridOccupied = false;
     
 
-
     setStart(5, 5);
-    setEnd(15, 30);
+    setEnd(10, 20);
 
 
     document.body.addEventListener("mousedown", () => {
@@ -207,7 +216,7 @@
         }
         if(!gridOccupied) {
             gridOccupied = true;
-            aStar(grid, start, end);
+            aStar(start, end);
         }
     })
 
