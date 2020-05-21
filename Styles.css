@@ -18,34 +18,44 @@ nav {
     margin-left: 5px;
     outline: none;
     border: none;
-    background-color: lightgray;
-    border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    background-color: #333; 
+    color: white;
+}
+.button:hover {
+    background-color: lightgray;
+    color: black;
+}
+.button:focus {
+    background-color: lightgray;
+    color: black;
 }
 .dropdown {
     position: relative;
 }
 .dropdown-menu {
+    display: none;
     top: 45px;
     position: absolute;
     width: 200px;
     background: #333;
-    opacity: 0;
-    pointer-events: none;
     z-index: 10;
     color: white;
-
 }
-.dropdown:focus .dropdown-menu {
-    opacity: 1;
-    pointer-events: all;
+.show {
+    display: block;
 }
 .dropdown-menu div {
     height: 50px;
     text-align: center;
     line-height: 50px;
+    margin: 2px;
 }
-
+.dropdown-menu div:hover {
+    background: lightgray;
+    color: black;
+}
 .grid-container {
     display: flex;
     justify-content: center;

@@ -11,6 +11,8 @@
     const aStarButton = document.getElementById("a-star")
     const BreadthFirstButton = document.getElementById("breadth-first");
     const greedyBestFirstButton = document.getElementById("greedy-best-first");
+    const dropdown = document.getElementById("dropdown-menu");
+    const dropdownButton = document.getElementById("dropdown-button");
 
     const rows = 20;
     const cols = 40;
@@ -116,7 +118,7 @@
     }
 
     let start, end, pressed, overStart, overEnd
-    let gridOccupied = false;
+    export let gridOccupied = false;
     
 
     setStart(5, 5);
@@ -141,6 +143,12 @@
             overEnd = true;
         }
     })
+    dropdownButton.addEventListener("click", () => {
+        dropdown.classList.toggle("show");
+    })
+    dropdownButton.addEventListener("focusout", () => {
+        dropdown.classList.remove("show");
+    })
 
     let isDijkstra = false;
     let isAStar = false;
@@ -149,7 +157,7 @@
 
     dijkstraButton.addEventListener("click", () => {
         isDijkstra = true;
-        isAStar = true;
+        isAStar = false;
         isBreadthFirst = false;
         isGreedyBestFirst = false;
     })
@@ -242,12 +250,13 @@
     }
     
     startButton.addEventListener("click", () => {
-        for(let i = 0; i < rows; i++) {
-            for(let j = 0; j < cols; j++) {
-                grid[i][j].searched = false;
-            }
-        }
         if(!gridOccupied) {
+            gridOccupied = true;
+            for(let i = 0; i < rows; i++) {
+                for(let j = 0; j < cols; j++) {
+                    grid[i][j].searched = false;
+                }
+            }
             if(isDijkstra) {
                 dijkstra(start, end);
             } else if(isAStar) {
