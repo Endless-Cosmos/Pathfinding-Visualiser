@@ -26,7 +26,7 @@
                         neighbor.setG(temp);
                         neighbor.parent = current;
                     } else {
-                        neighbor.setG(calcDist(neighbor, current) + current.g)
+                        neighbor.setG(calcDist(neighbor, current) + current.g);
                         openSet.push(neighbor);
                         neighbor.element.classList.add("open-set");
                         neighbor.parent = current;

@@ -1,4 +1,4 @@
-import { sleep, removeFromArray, speed, calcDist, path } from "./main.js";
+import { sleep, removeFromArray, speed, path } from "./main.js";
     
 export default async function bfs(start, goal) {
     let openSet = [];

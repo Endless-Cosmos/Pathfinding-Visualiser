@@ -3,14 +3,17 @@
     import aStar from "./a-star.js";  
     import bfs from "/breadth-first-search.js";
     import greedyBestFirst from "./greedy-best-first-search.js";
+    import dfs from "./depth-first-search.js"
 
     const cellContainer = document.getElementById("cell-grid");
     const startButton = document.getElementById("start-button");
     const clearWallsButton = document.getElementById("clear-walls-button");
+    const weightsButton = document.getElementById("add-weights-button");
     const dijkstraButton = document.getElementById("dijkstra")
     const aStarButton = document.getElementById("a-star")
     const BreadthFirstButton = document.getElementById("breadth-first");
     const greedyBestFirstButton = document.getElementById("greedy-best-first");
+    const DepthFirstButton = document.getElementById("depth-first");
     const dropdown = document.getElementById("dropdown-menu");
     const dropdownButton = document.getElementById("dropdown-button");
 
@@ -76,12 +79,12 @@
             }
         }
         setG(g) {
-            this.g = g;
+            this.g = g + this.weight;
         }
         setH(h) {
             this.h = h;
         }
-        addWeight(amt) {
+        setWeight(amt) {
             this.weight = amt;
         }
         setWall(boolean) {
@@ -117,7 +120,8 @@
         }
     }
 
-    let start, end, pressed, overStart, overEnd
+    let start, end, pressed, overStart, overEnd;
+    let isWeight = false;
     export let gridOccupied = false;
     
 
@@ -145,15 +149,22 @@
     })
     dropdownButton.addEventListener("click", () => {
         dropdown.classList.toggle("show");
+        dropdownButton.classList.toggle("dropdown-active");
     })
     dropdownButton.addEventListener("focusout", () => {
         dropdown.classList.remove("show");
+        dropdownButton.classList.remove("dropdown-active");
+
+    })
+    weightsButton.addEventListener("click", () => {
+        isWeight = !isWeight;
     })
 
     let isDijkstra = false;
     let isAStar = false;
     let isBreadthFirst = false;
     let isGreedyBestFirst = false;
+    let isDepthFirst = false;
 
     dijkstraButton.addEventListener("click", () => {
         isDijkstra = true;
@@ -179,11 +190,19 @@
         isBreadthFirst = false;
         isGreedyBestFirst = true;
     })
+    DepthFirstButton.addEventListener("click", () => {
+        isDijkstra = false;
+        isAStar = false;
+        isBreadthFirst = false;
+        isGreedyBestFirst = false;
+        isDepthFirst = true;
+    })
 
     for(let i = 0; i < rows; i++) {
         for(let j = 0; j < cols; j++) {
             grid[i][j].element.addEventListener("mousemove", handleMoveStart);
             grid[i][j].element.addEventListener("mousemove", handleMoveEnd);
+            grid[i][j].element.addEventListener("mousemove", handleWeightClick);
             grid[i][j].element.addEventListener("mousemove", handlePlaceWallClick);
         }
     }
@@ -205,9 +224,19 @@
         e.preventDefault()
         if(pressed && !gridOccupied) {
             const nodeElement = e.target;
-            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end")) {
+            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !isWeight) {
                 nodeElement.classList.add("wall");
                 grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWall(true);
+            }
+        }  
+    }
+    function handleWeightClick(e) {
+        e.preventDefault()
+        if(pressed && isWeight && !gridOccupied) {
+            const nodeElement = e.target;
+            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall")) {
+                nodeElement.classList.add("weight");
+                grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWeight(2);
             }
         }  
     }
@@ -221,6 +250,7 @@
             }
         }
     });
+
    
     function setStart(i, j) {
         for(let i = 0; i < rows; i++) {
@@ -251,7 +281,6 @@
     
     startButton.addEventListener("click", () => {
         if(!gridOccupied) {
-            gridOccupied = true;
             for(let i = 0; i < rows; i++) {
                 for(let j = 0; j < cols; j++) {
                     grid[i][j].searched = false;
@@ -259,12 +288,20 @@
             }
             if(isDijkstra) {
                 dijkstra(start, end);
+                gridOccupied = true;
             } else if(isAStar) {
                 aStar(start, end);
+                gridOccupied = true;
             } else if(isBreadthFirst) {
                 bfs(start, end);
+                gridOccupied = true;
             } else if(isGreedyBestFirst) {
                 greedyBestFirst(start, end);
+                gridOccupied = true;
+            } else if(isDepthFirst) {
+                dfs(start, end)
+            } else {
+                console.log("Select an algorithm")
             }
         }
     })
