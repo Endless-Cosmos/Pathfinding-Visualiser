@@ -106,12 +106,12 @@
         for(let j = 0; j < cols; j++) {
             grid[i][j] = new Node(i, j);
             grid[i][j].element = document.createElement("div");
-            grid[i][j].element.setAttribute("data-index1", `${i}`)
-            grid[i][j].element.setAttribute("data-index2", `${j}`)
+            grid[i][j].element.setAttribute("data-index1", `${i}`);
+            grid[i][j].element.setAttribute("data-index2", `${j}`);
             grid[i][j].element.classList.add("cell");
             cellContainer.appendChild(grid[i][j].element);
             if(grid[i][j].wall) {
-                grid[i][j].element.classList.add("wall")
+                grid[i][j].element.classList.add("wall");
             }
         }
     }
@@ -123,7 +123,11 @@
 
     let start, end, pressed, overStart, overEnd;
     let isWeight = false;
-    export let gridOccupied = false;
+    let gridOccupied = false;
+
+    export function setOccupation(a) {
+        gridOccupied = a;
+    }
     
 
     setStart(5, 5);
@@ -280,14 +284,14 @@
         }
         grid[i][j].start = true;
         start = grid[i][j];
-        grid[i][j].element.classList.add("start")
+        grid[i][j].element.classList.add("start");
     }
     function setEnd(i, j) {
         for(let i = 0; i < rows; i++) {
             for(let j = 0; j < cols; j++) {
                 if(grid[i][j].end === true) {
                     grid[i][j].end = false;
-                    grid[i][j].element.classList.remove("end")
+                    grid[i][j].element.classList.remove("end");
                 }
             }
         }
@@ -295,31 +299,38 @@
         end = grid[i][j];
         grid[i][j].element.classList.add("end")
     }
-    
-    startButton.addEventListener("click", () => {
-        if(!gridOccupied) {
+    function run() {
+        if(gridOccupied === false) {
             for(let i = 0; i < rows; i++) {
                 for(let j = 0; j < cols; j++) {
                     grid[i][j].searched = false;
+                    grid[i][j].element.classList.remove("closed-set");
+                    grid[i][j].element.classList.remove("open-set");
+                    grid[i][j].element.classList.remove("path");
+                    grid[i][j].element.classList.remove("current");
                 }
             }
             if(isDijkstra) {
+                gridOccupied = true;
                 dijkstra(start, end);
-                gridOccupied = true;
             } else if(isAStar) {
+                gridOccupied = true;
                 aStar(start, end);
-                gridOccupied = true;
             } else if(isBreadthFirst) {
+                gridOccupied = true;
                 bfs(start, end);
-                gridOccupied = true;
             } else if(isGreedyBestFirst) {
-                greedyBestFirst(start, end);
                 gridOccupied = true;
+                greedyBestFirst(start, end);
             } else if(isDepthFirst) {
+                gridOccupied = true;
                 dfs(start, end)
             } else {
                 console.log("Select an algorithm")
             }
         }
-    })
+    }
+    run();
 
+    startButton.addEventListener("click", run);
+    

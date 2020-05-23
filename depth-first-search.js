@@ -1,4 +1,4 @@
-import { sleep, removeFromArray, speed, path } from "./main.js";
+import { sleep, removeFromArray, speed, setOccupation, path } from "./main.js";
     
 export default async function dfs(start, goal) {
     let openSet = [];
@@ -8,8 +8,9 @@ export default async function dfs(start, goal) {
         current = openSet.pop();
         current.element.classList.add("current")
         if(current === goal) { 
-            path(current)
-            console.log("reached")
+            await path(current)
+            console.log("reached");
+            setOccupation(false);
             return 1;
         }
         removeFromArray(openSet, current);
@@ -29,6 +30,7 @@ export default async function dfs(start, goal) {
             await sleep(speed);
     }
     console.log("Not reached");
+    setOccupation(false);
     return -1;
 } 
 

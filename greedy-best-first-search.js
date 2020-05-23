@@ -1,4 +1,4 @@
-import { sleep, removeFromArray, speed, calcDist, calcManhattenDist, path } from "./main.js";
+import { sleep, removeFromArray, speed, calcDist, calcManhattenDist, setOccupation, path } from "./main.js";
 
 export default async function greedBestFirst(start, goal) {
     let openSet = [];
@@ -8,8 +8,9 @@ export default async function greedBestFirst(start, goal) {
         current = openSet.shift();
         current.element.classList.add("current")
         if(current === goal) { 
-            path(current)
+             await path(current)
             console.log("reached")
+            setOccupation(false);
             return 1;
         }
         removeFromArray(openSet, current);
@@ -30,6 +31,7 @@ export default async function greedBestFirst(start, goal) {
             await sleep(speed);
     }
     console.log("Not reached");
+    setOccupation(false);
     return -1;
 } 
 
