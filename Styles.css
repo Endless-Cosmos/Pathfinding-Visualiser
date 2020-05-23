@@ -73,15 +73,16 @@ nav {
     pointer-events: all;
 }
 .open-set {
-    background-color: yellow;
+    background-color: lightgreen;
     animation-name: visited;
-    animation-duration: 200ms;
+    animation-duration: 300ms;
+    border-color: #333;
 }
 .closed-set {
-    background-color: red;
+    background-color: lightblue;
     animation-name: visited;
-    animation-duration:200ms;
-
+    animation-duration: 1000ms;
+    border-color: #333;
 }
 @keyframes visited {
     from {
@@ -92,20 +93,26 @@ nav {
     }
 }
 .current {
-    background-color: black;
-}
-.start {
-    background-color: green;
-}
-.end {
-    background-color: orange;
+    background-color: #333;
 }
 .wall {
     background-color: gray;
+    border-color: #333;
 }
 .weight {
     background-color: rgba(0, 0, 0, .2);  
+    border-color: #333;
 }
 .path {
-    background-color: blue;
+    background-color: yellow;
+    animation-name: visited;
+    animation-duration: 500ms;
+}
+.end {
+    background-color: red;
+    border-color: #333;
+}
+.start {
+    background-color: green;
+    border-color: #333
 }
