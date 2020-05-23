@@ -8,6 +8,7 @@
     const cellContainer = document.getElementById("cell-grid");
     const startButton = document.getElementById("start-button");
     const clearWallsButton = document.getElementById("clear-walls-button");
+    const clearWeightsButton = document.getElementById("clear-weights-button");
     const weightsButton = document.getElementById("add-weights-button");
     const dijkstraButton = document.getElementById("dijkstra")
     const aStarButton = document.getElementById("a-star")
@@ -171,24 +172,30 @@
         isAStar = false;
         isBreadthFirst = false;
         isGreedyBestFirst = false;
+        isDepthFirst = false;
+
     })
     aStarButton.addEventListener("click", () => {
         isDijkstra = false;
         isAStar = true;
         isBreadthFirst = false;
         isGreedyBestFirst = false;
+        isDepthFirst = false;
     })
     BreadthFirstButton.addEventListener("click", () => {
         isDijkstra = false;
         isAStar = false;
         isBreadthFirst = true;
         isGreedyBestFirst = false;
+        isDepthFirst = false;
     })
     greedyBestFirstButton.addEventListener("click", () => {
         isDijkstra = false;
         isAStar = false;
         isBreadthFirst = false;
         isGreedyBestFirst = true;
+        isDepthFirst = false;
+
     })
     DepthFirstButton.addEventListener("click", () => {
         isDijkstra = false;
@@ -246,6 +253,16 @@
                 if(grid[i][j].wall) {
                     grid[i][j].setWall(false);
                     grid[i][j].element.classList.remove("wall");
+                }
+            }
+        }
+    });
+    clearWeightsButton.addEventListener("click", () => {
+        for(let i = 0; i < rows; i++) {
+            for(let j = 0; j < cols; j++) {
+                if(grid[i][j].weight > 0) {
+                    grid[i][j].setWeight(0);
+                    grid[i][j].element.classList.remove("weight");
                 }
             }
         }

@@ -83,9 +83,6 @@ nav {
     animation-duration:200ms;
 
 }
-.path {
-    background-color: blue;
-}
 @keyframes visited {
     from {
         transform: scale(1.4);
@@ -107,6 +104,8 @@ nav {
     background-color: gray;
 }
 .weight {
-    background-color: rgba(0, 0, 0, .2);
-    
+    background-color: rgba(0, 0, 0, .2);  
+}
+.path {
+    background-color: blue;
 }
