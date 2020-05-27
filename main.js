@@ -213,9 +213,15 @@
         for(let j = 0; j < cols; j++) {
             grid[i][j].element.addEventListener("mousemove", handleMoveStart);
             grid[i][j].element.addEventListener("mousemove", handleMoveEnd);
-            grid[i][j].element.addEventListener("mousemove", handleWeightClick);
-            grid[i][j].element.addEventListener("mousemove", handlePlaceWallClick);
+            grid[i][j].element.addEventListener("mouseenter", handleAddWeight);
+            grid[i][j].element.addEventListener("mouseenter", handlePlaceWall);
+            grid[i][j].element.addEventListener("mouseleave", handleRemoveJustPlaced);
+            grid[i][j].element.addEventListener("mouseenter", handleRemoveWall);
         }
+    }
+    function handleRemoveJustPlaced(e) {
+        e.preventDefault();
+        e.target.setAttribute("data-just-placed", "");
     }
     function handleMoveStart(e) {
         e.preventDefault();
@@ -231,23 +237,42 @@
             setEnd(nodeElement.dataset.index1, nodeElement.dataset.index2);           
         }
     }
-    function handlePlaceWallClick(e) {
+    function handlePlaceWall(e) {
         e.preventDefault()
         if(pressed && !gridOccupied) {
             const nodeElement = e.target;
-            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !isWeight) {
+            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall") && !isWeight) {
                 nodeElement.classList.add("wall");
+                nodeElement.classList.remove("weight");
+                nodeElement.setAttribute("data-just-placed", "true")
+                console.log(nodeElement.dataset.justPlaced)
                 grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWall(true);
+                grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWeight(0);
             }
         }  
     }
-    function handleWeightClick(e) {
+    function handleAddWeight(e) {
         e.preventDefault()
         if(pressed && isWeight && !gridOccupied) {
             const nodeElement = e.target;
-            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall")) {
+            if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("weight")) {
                 nodeElement.classList.add("weight");
+                nodeElement.classList.remove("wall");
+                nodeElement.setAttribute("data-just-placed", "true")
+                grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWall(false);;
                 grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWeight(2);
+            }
+        }  
+    }
+    function handleRemoveWall(e) {
+        e.preventDefault()
+        if(pressed && !gridOccupied) {
+            const nodeElement = e.target;
+            if(!nodeElement.dataset.justPlaced) {
+                nodeElement.classList.remove("wall");
+                nodeElement.classList.remove("weight");
+                grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWall(false);
+                grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWeight(0);
             }
         }  
     }
