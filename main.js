@@ -133,6 +133,9 @@
     setStart(5, 5);
     setEnd(10, 20);
 
+    window.addEventListener("mousemove", e => {
+        e.preventDefault()
+    })
 
     document.body.addEventListener("mousedown", () => {
         pressed = true;
@@ -211,8 +214,8 @@
 
     for(let i = 0; i < rows; i++) {
         for(let j = 0; j < cols; j++) {
-            grid[i][j].element.addEventListener("mousemove", handleMoveStart);
-            grid[i][j].element.addEventListener("mousemove", handleMoveEnd);
+            grid[i][j].element.addEventListener("mouseenter", handleMoveStart);
+            grid[i][j].element.addEventListener("mouseenter", handleMoveEnd);
             grid[i][j].element.addEventListener("mouseenter", handleAddWeight);
             grid[i][j].element.addEventListener("mouseenter", handlePlaceWall);
             grid[i][j].element.addEventListener("mouseleave", handleRemoveJustPlaced);
@@ -234,7 +237,8 @@
         e.preventDefault();
         const nodeElement = e.target;
         if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("wall") && overEnd && !gridOccupied) {
-            setEnd(nodeElement.dataset.index1, nodeElement.dataset.index2);           
+            setEnd(nodeElement.dataset.index1, nodeElement.dataset.index2); 
+            console.log("hello")          
         }
     }
     function handlePlaceWall(e) {
