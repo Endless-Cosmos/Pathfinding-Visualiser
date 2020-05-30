@@ -85,6 +85,9 @@
         setH(h) {
             this.h = h;
         }
+        setF(f) {
+            this.f = f;
+        }
         setWeight(amt) {
             this.weight = amt;
         }
@@ -326,13 +329,17 @@
         }
         grid[i][j].end = true;
         end = grid[i][j];
-        grid[i][j].element.classList.add("end")
+        grid[i][j].element.classList.add("end");
     }
     function run() {
-        if(gridOccupied === false) {
+        if(!gridOccupied) {
             for(let i = 0; i < rows; i++) {
                 for(let j = 0; j < cols; j++) {
                     grid[i][j].searched = false;
+                    grid[i][j].setG(Infinity);
+                    grid[i][j].setH(Infinity);
+                    grid[i][j].setF(Infinity);
+                    grid[i][j].parent = null;
                     grid[i][j].element.classList.remove("closed-set");
                     grid[i][j].element.classList.remove("open-set");
                     grid[i][j].element.classList.remove("path");
