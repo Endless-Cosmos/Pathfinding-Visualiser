@@ -1,5 +1,7 @@
 import { setOccupation } from "./main.js";
 
+const nodesToAnimate = [];
+
 export default function animate(nodesToAnimate) {
     console.log(nodesToAnimate)
     for(let i = 0; i < nodesToAnimate.length; i++) {
@@ -20,6 +22,13 @@ export default function animate(nodesToAnimate) {
                 nodesToAnimate.splice(0, nodesToAnimate.length);
                 setOccupation(false);
             }
-        }, 5 * i + 1);
+        }, 2 * i + 1);
     }
+}
+export function initialiseAnimationArray() {
+    return nodesToAnimate;
+}
+
+export function addToAnimationNodes(node) {
+    nodesToAnimate.push(node)
 }

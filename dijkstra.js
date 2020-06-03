@@ -1,11 +1,7 @@
 import { removeFromArray, speed, calcDist, setOccupation, path } from "./main.js";
-import animate from "./animate.js";
+import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animate.js";
 
-const nodesToAnimate = [];
-
-export function addToAnimationNodes(node) {
-    nodesToAnimate.push(node)
-}
+const nodesToAnimate = initialiseAnimationArray();
     
 export default async function dijkstra(start, goal) {
     let openSet = [];

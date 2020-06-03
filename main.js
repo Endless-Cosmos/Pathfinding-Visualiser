@@ -1,9 +1,10 @@
 
-    import dijkstra, { addToAnimationNodes } from "./dijkstra.js";  
+    import dijkstra from "./dijkstra.js";  
     import aStar from "./a-star.js";  
     import bfs from "/breadth-first-search.js";
     import greedyBestFirst from "./greedy-best-first-search.js";
-    import dfs from "./depth-first-search.js"
+    import dfs from "./depth-first-search.js";
+    import { addToAnimationNodes } from "./animate.js"
 
     const cellContainer = document.getElementById("cell-grid");
     const startButton = document.getElementById("start-button");
@@ -38,7 +39,7 @@
             }
         }
     }
-    export async function path(current) {
+    export function path(current) {
         const path = []; 
             while(current.parent != null) {
                 path.push(current);
