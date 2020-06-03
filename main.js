@@ -1,5 +1,5 @@
 
-    import dijkstra from "./dijkstra.js";  
+    import dijkstra, { addToAnimationNodes } from "./dijkstra.js";  
     import aStar from "./a-star.js";  
     import bfs from "/breadth-first-search.js";
     import greedyBestFirst from "./greedy-best-first-search.js";
@@ -22,7 +22,6 @@
     const cols = 40;
     export const speed = 10;
 
-
     export function calcDist(node1, node2) {
         return Math.sqrt(Math.pow((node2.i - node1.i), 2) + Math.pow((node2.j - node1.j), 2))
     }
@@ -43,9 +42,8 @@
         const path = []; 
             while(current.parent != null) {
                 path.push(current);
-                current.element.classList.add("path")
+                addToAnimationNodes(current)
                 current = current.parent;
-                await sleep(speed);
             }
     }
 
@@ -53,7 +51,9 @@
         constructor(i, j) {
             this.i = i;
             this.j = j;
-            this.searched = null;
+            this.searched = false;
+            this.hasBeenCurrent = false;
+            this.isInClosedSet = false;
             this.neighbors = [];
             this.weight = 0;
             this.g = Infinity;
@@ -131,7 +131,7 @@
     export function setOccupation(a) {
         gridOccupied = a;
     }
-    
+        
 
     setStart(5, 5);
     setEnd(10, 20);
@@ -336,6 +336,8 @@
             for(let i = 0; i < rows; i++) {
                 for(let j = 0; j < cols; j++) {
                     grid[i][j].searched = false;
+                    grid[i][j].hasBeenCurrent = false;
+                    grid[i][j].isInClosedSet = false;
                     grid[i][j].setG(Infinity);
                     grid[i][j].setH(Infinity);
                     grid[i][j].setF(Infinity);
