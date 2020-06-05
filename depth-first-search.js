@@ -1,4 +1,7 @@
-import { sleep, removeFromArray, speed, setOccupation, path } from "./main.js";
+import { removeFromArray, speed, path } from "./main.js";
+import animate, { addToAnimationNodes, initialiseAnimationArray } from "./animate.js"
+
+const nodesToAnimate = initialiseAnimationArray()
     
 export default async function dfs(start, goal) {
     let openSet = [];
@@ -8,29 +11,29 @@ export default async function dfs(start, goal) {
         current = openSet.pop();
         current.element.classList.add("current")
         if(current === goal) { 
-            await path(current)
+            path(current)
             console.log("reached");
-            setOccupation(false);
+            animate(nodesToAnimate)
             return 1;
         }
         removeFromArray(openSet, current);
         current.searched = true;
-        current.element.classList.remove("open-set");
-        current.element.classList.add("closed-set");
-        await sleep(speed);
+        addToAnimationNodes({ ...current });
+        current.hasBeenCurrent = true;
+        addToAnimationNodes({ ...current });
+        current.isInClosedSet = true;
         current.element.classList.remove("current")
         current.neighbors.forEach(neighbor => {
             if(!neighbor.searched && !neighbor.wall) {
                     openSet.push(neighbor);
-                    neighbor.parent = current
-                    neighbor.element.classList.add("open-set");
+                    addToAnimationNodes({ ...neighbor })
+                    neighbor.parent = current;
                 }
                 
         });
-            await sleep(speed);
     }
+    animate(nodesToAnimate)
     console.log("Not reached");
-    setOccupation(false);
     return -1;
 } 
 

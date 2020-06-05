@@ -1,4 +1,4 @@
-import { removeFromArray, speed, calcDist, calcManhattenDist, setOccupation, path } from "./main.js";
+import { removeFromArray, speed, calcDist, calcManhattenDist, path } from "./main.js";
 import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animate.js";
 
 const nodesToAnimate = initialiseAnimationArray();   
@@ -40,8 +40,8 @@ export default async function aStar(start, goal) {
         });
             openSet.sort((a, b) => a.f - b.f);
     }
+    animate(nodesToAnimate)
     console.log("Not reached");
-    setOccupation(false);
     return -1;
 } 
 

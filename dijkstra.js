@@ -1,4 +1,4 @@
-import { removeFromArray, speed, calcDist, setOccupation, path } from "./main.js";
+import { removeFromArray, speed, calcDist, path } from "./main.js";
 import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animate.js";
 
 const nodesToAnimate = initialiseAnimationArray();
@@ -38,8 +38,8 @@ export default async function dijkstra(start, goal) {
         });
             openSet.sort((a, b) => a.g - b.g);
     }
+    animate(nodesToAnimate)
     console.log("Not reached");
-    setOccupation(false);
     return -1;
 } 
 

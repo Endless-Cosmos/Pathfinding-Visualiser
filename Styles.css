@@ -74,14 +74,10 @@ nav {
 }
 .open-set {
     background-color: lightgreen;
-    animation-name: visited;
-    animation-duration: 100ms;
     border-color: #333;
 }
 .closed-set {
     background-color: lightblue;
-    animation-name: visited;
-    animation-duration: 100ms;
     border-color: #333;
 }
 @keyframes visited {
@@ -105,7 +101,6 @@ nav {
 }
 .path {
     background-color: yellow;
-    animation-name: visited;
     animation-duration: 500ms;
 }
 .end {
