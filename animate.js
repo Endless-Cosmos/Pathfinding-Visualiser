@@ -30,5 +30,5 @@ export function initialiseAnimationArray() {
 }
 
 export function addToAnimationNodes(node) {
-    nodesToAnimate.push(node)
+    nodesToAnimate.push(node);
 }

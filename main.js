@@ -24,13 +24,10 @@
     export const speed = 10;
 
     export function calcDist(node1, node2) {
-        return Math.sqrt(Math.pow((node2.i - node1.i), 2) + Math.pow((node2.j - node1.j), 2))
+        return Math.sqrt(Math.pow((node2.i - node1.i), 2) + Math.pow((node2.j - node1.j), 2));
     }
     export function calcManhattenDist(node1, node2) {
         return Math.abs(node1.i - node2.i) + Math.abs(node1.j - node2.j);
-    } 
-    export async function sleep(ms) {
-        return new Promise(res => setTimeout(res, ms));
     } 
     export function removeFromArray(arr, el) {
         for(let i = arr.length - 1; i >= 0; i--) {
@@ -43,7 +40,7 @@
         const path = []; 
             while(current.parent != null) {
                 path.push(current);
-                addToAnimationNodes(current)
+                addToAnimationNodes(current);
                 current = current.parent;
             }
     }
@@ -71,13 +68,13 @@
                 this.neighbors.push(grid[this.i - 1][this.j]);
             }
             if(this.j > 0) {
-                this.neighbors.push(grid[this.i][this.j - 1])
+                this.neighbors.push(grid[this.i][this.j - 1]);
             }
             if(this.i < rows - 1) {
-                this.neighbors.push(grid[this.i + 1][this.j])
+                this.neighbors.push(grid[this.i + 1][this.j]);
             }
             if(this.j < cols - 1) {
-                this.neighbors.push(grid[this.i][this.j + 1])
+                this.neighbors.push(grid[this.i][this.j + 1]);
             }
         }
         setG(g) {
@@ -98,7 +95,7 @@
     }
 
     function create2dArray(rows, cols) {
-        let arr = new Array(rows)
+        let arr = new Array(rows);
         for(let i = 0; i < rows; i++) {
             arr[i] = new Array(cols);
         }
@@ -252,15 +249,15 @@
             if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall") && !isWeight) {
                 nodeElement.classList.add("wall");
                 nodeElement.classList.remove("weight");
-                nodeElement.setAttribute("data-just-placed", "true")
-                console.log(nodeElement.dataset.justPlaced)
+                nodeElement.setAttribute("data-just-placed", "true");
+                console.log(nodeElement.dataset.justPlaced);
                 grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWall(true);
                 grid[nodeElement.dataset.index1][nodeElement.dataset.index2].setWeight(0);
             }
         }  
     }
     function handleAddWeight(e) {
-        e.preventDefault()
+        e.preventDefault();
         if(pressed && isWeight && !gridOccupied) {
             const nodeElement = e.target;
             if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("weight")) {
@@ -273,7 +270,7 @@
         }  
     }
     function handleRemoveWall(e) {
-        e.preventDefault()
+        e.preventDefault();
         if(pressed && !gridOccupied) {
             const nodeElement = e.target;
             if(!nodeElement.dataset.justPlaced) {
@@ -365,11 +362,9 @@
                 gridOccupied = true;
                 dfs(start, end)
             } else {
-                console.log("Select an algorithm")
+                console.log("Select an algorithm");
             }
         }
     }
-    run();
-
     startButton.addEventListener("click", run);
     

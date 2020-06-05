@@ -3,7 +3,7 @@ import animate, { addToAnimationNodes, initialiseAnimationArray } from "./animat
 
 const nodesToAnimate = initialiseAnimationArray()
     
-export default async function dfs(start, goal) {
+export default function dfs(start, goal) {
     let openSet = [];
     openSet.push(start);
     let current;
@@ -13,7 +13,7 @@ export default async function dfs(start, goal) {
         if(current === goal) { 
             path(current)
             console.log("reached");
-            animate(nodesToAnimate)
+            animate(nodesToAnimate);
             return 1;
         }
         removeFromArray(openSet, current);
@@ -26,13 +26,13 @@ export default async function dfs(start, goal) {
         current.neighbors.forEach(neighbor => {
             if(!neighbor.searched && !neighbor.wall) {
                     openSet.push(neighbor);
-                    addToAnimationNodes({ ...neighbor })
+                    addToAnimationNodes({ ...neighbor });
                     neighbor.parent = current;
                 }
                 
         });
     }
-    animate(nodesToAnimate)
+    animate(nodesToAnimate);
     console.log("Not reached");
     return -1;
 } 

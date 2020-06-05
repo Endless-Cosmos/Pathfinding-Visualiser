@@ -3,7 +3,7 @@ import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animat
 
 const nodesToAnimate = initialiseAnimationArray();   
 
-export default async function aStar(start, goal) {
+export default function aStar(start, goal) {
     let openSet = [];
     start.setG(0);
     openSet.push(start);
@@ -11,7 +11,7 @@ export default async function aStar(start, goal) {
     while(openSet.length > 0) {
         current = openSet.shift();
         if(current === goal) { 
-            path(current)
+            path(current);
             console.log("reached");
             animate(nodesToAnimate);
             return 1;
@@ -29,10 +29,10 @@ export default async function aStar(start, goal) {
                     neighbor.setG(temp);
                     neighbor.parent = current;
                 } else {
-                    neighbor.setG(calcDist(neighbor, current) + current.g)
+                    neighbor.setG(calcDist(neighbor, current) + current.g);
                     openSet.push(neighbor);
-                    addToAnimationNodes({ ...neighbor })
-                    neighbor.setH(calcDist(neighbor, goal))
+                    addToAnimationNodes({ ...neighbor });
+                    neighbor.setH(calcDist(neighbor, goal));
                     neighbor.parent = current;
                 }
                 neighbor.f = neighbor.g + neighbor.h;

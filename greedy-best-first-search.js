@@ -3,7 +3,7 @@ import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animat
 
 const nodesToAnimate = initialiseAnimationArray();
 
-export default async function greedBestFirst(start, goal) {
+export default function greedBestFirst(start, goal) {
     let openSet = [];
     openSet.push(start);
     let current;
@@ -12,7 +12,7 @@ export default async function greedBestFirst(start, goal) {
         if(current === goal) { 
             path(current);
             animate(nodesToAnimate);
-            console.log("reached")
+            console.log("reached");
             return 1;
         }
         removeFromArray(openSet, current);
@@ -25,13 +25,13 @@ export default async function greedBestFirst(start, goal) {
             if(!neighbor.searched && !neighbor.wall) {                
                 openSet.push(neighbor);
                 addToAnimationNodes({ ...neighbor });
-                neighbor.setH(calcDist(neighbor, goal) + neighbor.weight)
+                neighbor.setH(calcDist(neighbor, goal) + neighbor.weight);
                 neighbor.parent = current;
             }
         });
             openSet.sort((a, b) => a.h - b.h);
     }
-    animate(nodesToAnimate)
+    animate(nodesToAnimate);
     console.log("Not reached");
     return -1;
 } 

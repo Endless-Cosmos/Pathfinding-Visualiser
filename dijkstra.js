@@ -3,7 +3,7 @@ import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animat
 
 const nodesToAnimate = initialiseAnimationArray();
     
-export default async function dijkstra(start, goal) {
+export default function dijkstra(start, goal) {
     let openSet = [];
     start.setG(0);
     openSet.push(start);
@@ -11,7 +11,7 @@ export default async function dijkstra(start, goal) {
     while(openSet.length > 0) {
         current = openSet.shift();
         if(current === goal) { 
-            await path(current)
+            path(current)
             console.log("reached");
             animate(nodesToAnimate)
             return 1;
@@ -31,7 +31,7 @@ export default async function dijkstra(start, goal) {
                 } else {
                     neighbor.setG(calcDist(neighbor, current) + current.g);
                     openSet.push(neighbor);
-                    addToAnimationNodes({ ...neighbor })
+                    addToAnimationNodes({ ...neighbor });
                     neighbor.parent = current;
                 }
             }

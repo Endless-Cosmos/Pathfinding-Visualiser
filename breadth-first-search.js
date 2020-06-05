@@ -3,7 +3,7 @@ import animate, { addToAnimationNodes, initialiseAnimationArray } from "./animat
 
 const nodesToAnimate = initialiseAnimationArray();
     
-export default async function bfs(start, goal) {
+export default function bfs(start, goal) {
     let openSet = [];
     openSet.push(start);
     let current;
@@ -11,8 +11,8 @@ export default async function bfs(start, goal) {
         current = openSet.shift();
         if(current === goal) { 
             path(current);
-            animate(nodesToAnimate)
-            console.log("reached")
+            animate(nodesToAnimate);
+            console.log("reached");
             return 1;
         }
         removeFromArray(openSet, current);
@@ -25,7 +25,7 @@ export default async function bfs(start, goal) {
             if(!neighbor.searched && !neighbor.wall) {
                     openSet.push(neighbor);
                     addToAnimationNodes({ ...neighbor });
-                    neighbor.parent = current
+                    neighbor.parent = current;
                 }
                 
         });
