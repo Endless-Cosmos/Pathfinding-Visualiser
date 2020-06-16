@@ -2,26 +2,65 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Lato", sans-serif;
 }
 :root {
     --size: 40;
 }
+body {
+    font-style: sans-serif;
+}
 nav {
     display: flex;
     height: 50px;
+    justify-content: space-between;
     align-items: center;
     background-color: #333;
+}
+.left {
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+}
+.right {
+    display: flex;
+    height: 100%;
+    align-items: center;
 }
 .button {
     width: 100px;
     height: 80%;
-    margin-left: 5px;
     outline: none;
     border: none;
     cursor: pointer;
     font-weight: bold;
     background-color: #333; 
     color: white;
+}
+.current-algorithm {
+    height: 80%;
+    min-width: 250px;
+    border: 1px solid lightgray;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.current-speed {
+    height: 80%;
+    min-width: 100px;
+    border: 1px solid lightgray;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.at-left {
+    margin-left: 5px;
+}
+.at-right {
+    margin-right: 5px;
 }
 .button:hover {
     background-color: lightgray;
@@ -56,10 +95,13 @@ nav {
     background: lightgray;
     color: black;
 }
+.menu-at-right {
+    right: 0;
+}
 .grid-container {
     display: flex;
     justify-content: center;
-    overflow: scroll;
+    margin-top: 20px;
 }
 .cell-grid {
     display: grid;
@@ -69,16 +111,14 @@ nav {
     width: 25px;
     height: 25px;
     display: inline-block;
-    border: 1px solid lightgray;
+    border: 1px solid #999;
     pointer-events: all;
 }
 .open-set {
     background-color: lightgreen;
-    border-color: #333;
 }
 .closed-set {
     background-color: lightblue;
-    border-color: #333;
 }
 @keyframes visited {
     from {
@@ -93,21 +133,70 @@ nav {
 }
 .wall {
     background-color: gray;
-    border-color: #333;
+    border: none;
 }
 .weight {
     background-color: rgba(0, 0, 0, .3);  
-    border-color: #333;
+    border: none;
 }
 .path {
     background-color: yellow;
     animation-duration: 500ms;
+    border: 1px solid #999;
 }
 .end {
     background-color: red;
-    border-color: #333;
 }
 .start {
     background-color: green;
-    border-color: #333;
 }
+@keyframes grow {
+    from {
+        transfrom: scale(1);
+    }
+    to {
+        transfrom: scale(.15);
+    }
+}
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 400px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #333;
+    color: white;
+    font-size: 2rem;
+    animation-name: grow;
+    animation-duration: 1000ms;
+
+}
+.modal-button {
+    width: 100px;
+    height: 40px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: #333;
+    border: 1px solid white;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+.modal-button:hover {
+    background-color: white;
+    color: black;
+}
+.hide {
+    display: none;
+}
+

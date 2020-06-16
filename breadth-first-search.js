@@ -1,4 +1,4 @@
-import { removeFromArray, speed, path } from "./main.js";
+import { removeFromArray, path } from "./main.js";
 import animate, { addToAnimationNodes, initialiseAnimationArray } from "./animate.js";
 
 const nodesToAnimate = initialiseAnimationArray();

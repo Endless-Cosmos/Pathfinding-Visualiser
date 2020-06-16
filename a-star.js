@@ -1,4 +1,4 @@
-import { removeFromArray, speed, calcDist, calcManhattenDist, path } from "./main.js";
+import { removeFromArray, calcDist, calcManhattenDist, path } from "./main.js";
 import animate, { initialiseAnimationArray, addToAnimationNodes } from "./animate.js";
 
 const nodesToAnimate = initialiseAnimationArray();   

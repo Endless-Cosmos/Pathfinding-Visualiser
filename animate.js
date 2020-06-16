@@ -1,4 +1,4 @@
-import { setOccupation } from "./main.js";
+import { setOccupation, speed } from "./main.js";
 
 const nodesToAnimate = [];
 
@@ -22,7 +22,7 @@ export default function animate(nodesToAnimate) {
                 nodesToAnimate.splice(0, nodesToAnimate.length);
                 setOccupation(false);
             }
-        }, 2 * i + 1);
+        }, speed * i);
     }
 }
 export function initialiseAnimationArray() {

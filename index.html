@@ -3,26 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Styles.css">
     <title>Pathfinding</title>
 </head>
 <body>
+    <div class="modal hide" id="modal-select-algorithm">
+        <div class="text">Please select an algorithm</div>
+        <button class="modal-button" id="modal-button">Confirm</button>
+    </div>
     <nav>
-        <button class="button" id="start-button">Start</button>
-        <button class="button" id="clear-walls-button">Clear Walls</button>
-        <button class="button" id="clear-weights-button">Clear Weights</button>
-        <button class="button" id="add-weights-button">Toggle Weights</button>
-        <button class="button dropdown" id="dropdown-button">
+        <div class="left">
+            <button class="button at-left" id="start-button">Start</button>
+            <button class="button at-left" id="clear-walls-button">Clear Walls</button>
+            <button class="button at-left" id="clear-weights-button">Clear Weights</button>
+            <button class="button at-left" id="add-weights-button">Toggle Weights</button>
+            <button class="button at-left dropdown" id="algorithm-dropdown-button">
             Algorithms
-            <div class="dropdown-menu" id="dropdown-menu">
+            <div class="dropdown-menu" id="algorithms-dropdown-menu">
                 <div id="breadth-first">Breadth First Search</div>
                 <div id="dijkstra">Dijkstra</div>
                 <div id="a-star">A Star</div>
                 <div id="greedy-best-first">Greedy Best First Search</div>
                 <div id="depth-first">Depth First Search</div>
-
             </div>
         </button>
+        <div class="current-algorithm" id="current-algorithm">
+            Please select an algorithm!
+        </div>
+        </div>
+        <div class="right">
+            <div class="current-speed" id="current-speed">
+                Medium
+            </div>
+            <button class="button at-right dropdown" id="speed-dropdown-button">
+                Set Speed
+                <div class="dropdown-menu menu-at-right" id="speed-dropdown-menu">
+                    <div id="very-slow">Very Slow</div>
+                    <div id="slow">Slow</div>
+                    <div id="medium">Medium</div>
+                    <div id="fast">Fast</div>
+                    <div id="very-fast">Very Fast</div>
+                </div>
+            </button>
+        </div>
     </nav>
     <div class="grid-container">
         <div class="cell-grid" id="cell-grid">

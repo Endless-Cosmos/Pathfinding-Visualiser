@@ -16,12 +16,23 @@
     const BreadthFirstButton = document.getElementById("breadth-first");
     const greedyBestFirstButton = document.getElementById("greedy-best-first");
     const DepthFirstButton = document.getElementById("depth-first");
-    const dropdown = document.getElementById("dropdown-menu");
-    const dropdownButton = document.getElementById("dropdown-button");
+    const algorithmsDropdown = document.getElementById("algorithms-dropdown-menu");
+    const algorithmsDropdownButton = document.getElementById("algorithm-dropdown-button");
+    const speedDropdownButton = document.getElementById("speed-dropdown-button");
+    const speedDropdown = document.getElementById("speed-dropdown-menu");
+    const modal = document.getElementById("modal-select-algorithm");
+    const modalButton = document.getElementById("modal-button");
+    const currentAlgorithm = document.getElementById("current-algorithm");
+    const currentSpeed = document.getElementById("current-speed");
+    const verySlow = document.getElementById("very-slow");
+    const slow = document.getElementById("slow");
+    const medium = document.getElementById("medium");
+    const fast = document.getElementById("fast");
+    const veryFast = document.getElementById("very-fast");
 
     const rows = 20;
     const cols = 40;
-    export const speed = 10;
+    export let speed = 5;
 
     export function calcDist(node1, node2) {
         return Math.sqrt(Math.pow((node2.i - node1.i), 2) + Math.pow((node2.j - node1.j), 2));
@@ -101,7 +112,7 @@
         }
         return arr;
     }
-    let grid = create2dArray(rows, cols);
+    const grid = create2dArray(rows, cols);
 
     for(let i = 0; i < rows; i++) {
         for(let j = 0; j < cols; j++) {
@@ -150,24 +161,51 @@
         if(e.target.classList.contains("start")) {
             overStart = true;
         }
-    })
+    });
     document.body.addEventListener("mousedown", e => {
         if(e.target.classList.contains("end")) {
             overEnd = true;
         }
-    })
-    dropdownButton.addEventListener("click", () => {
-        dropdown.classList.toggle("show");
-        dropdownButton.classList.toggle("dropdown-active");
-    })
-    dropdownButton.addEventListener("focusout", () => {
-        dropdown.classList.remove("show");
-        dropdownButton.classList.remove("dropdown-active");
-
+    });
+    algorithmsDropdownButton.addEventListener("click", () => {
+        algorithmsDropdown.classList.toggle("show");
+        algorithmsDropdownButton.classList.toggle("dropdown-active");
+    });
+    algorithmsDropdownButton.addEventListener("focusout", () => {
+        algorithmsDropdown.classList.remove("show");
+        algorithmsDropdownButton.classList.remove("dropdown-active");
+    });
+    speedDropdownButton.addEventListener("click", () => {
+        speedDropdown.classList.toggle("show");
+        speedDropdownButton.classList.toggle("dropdown-active");
+    });
+    speedDropdownButton.addEventListener("focusout", () => {
+        speedDropdown.classList.remove("show");
+        speedDropdownButton.classList.remove("dropdown-active");
     })
     weightsButton.addEventListener("click", () => {
         isWeight = !isWeight;
-    })
+    });
+    verySlow.addEventListener("click", () => {
+        speed = 20;
+        currentSpeed.innerText = "Very Slow";
+    });
+    slow.addEventListener("click", () => {
+        speed = 10;
+        currentSpeed.innerText = "Slow";
+    });
+    medium.addEventListener("click", () => {
+        speed = 5;
+        currentSpeed.innerText = "Medium";
+    });
+    fast.addEventListener("click", () => {
+        speed = 2;
+        currentSpeed.innerText = "Fast";
+    });
+    veryFast.addEventListener("click", () => {
+        speed = .5;
+        currentSpeed.innerText = "Very Fast";
+    });
 
     let isDijkstra = false;
     let isAStar = false;
@@ -181,6 +219,7 @@
         isBreadthFirst = false;
         isGreedyBestFirst = false;
         isDepthFirst = false;
+        currentAlgorithm.innerText = "Dikjstra";
 
     })
     aStarButton.addEventListener("click", () => {
@@ -189,6 +228,7 @@
         isBreadthFirst = false;
         isGreedyBestFirst = false;
         isDepthFirst = false;
+        currentAlgorithm.innerText = "A-Star";
     })
     BreadthFirstButton.addEventListener("click", () => {
         isDijkstra = false;
@@ -196,6 +236,7 @@
         isBreadthFirst = true;
         isGreedyBestFirst = false;
         isDepthFirst = false;
+        currentAlgorithm.innerText = "Breadth First Search";
     })
     greedyBestFirstButton.addEventListener("click", () => {
         isDijkstra = false;
@@ -203,6 +244,7 @@
         isBreadthFirst = false;
         isGreedyBestFirst = true;
         isDepthFirst = false;
+        currentAlgorithm.innerText = "Greedy Best First Search";
 
     })
     DepthFirstButton.addEventListener("click", () => {
@@ -211,6 +253,7 @@
         isBreadthFirst = false;
         isGreedyBestFirst = false;
         isDepthFirst = true;
+        currentAlgorithm.innerText = "Depth First Search";
     })
 
     for(let i = 0; i < rows; i++) {
@@ -243,7 +286,7 @@
         }
     }
     function handlePlaceWall(e) {
-        e.preventDefault()
+        e.preventDefault();
         if(pressed && !gridOccupied) {
             const nodeElement = e.target;
             if(!nodeElement.classList.contains("start") && !nodeElement.classList.contains("end") && !nodeElement.classList.contains("wall") && !isWeight) {
@@ -301,6 +344,9 @@
             }
         }
     });
+    modalButton.addEventListener("click", () => {
+        modal.classList.add("hide");
+    })
 
    
     function setStart(i, j) {
@@ -362,7 +408,7 @@
                 gridOccupied = true;
                 dfs(start, end)
             } else {
-                console.log("Select an algorithm");
+                modal.classList.remove("hide");
             }
         }
     }
