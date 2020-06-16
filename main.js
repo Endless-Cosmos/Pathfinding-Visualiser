@@ -169,22 +169,23 @@
     });
     algorithmsDropdownButton.addEventListener("click", () => {
         algorithmsDropdown.classList.toggle("show");
-        algorithmsDropdownButton.classList.toggle("dropdown-active");
+        algorithmsDropdownButton.classList.toggle("active");
     });
     algorithmsDropdownButton.addEventListener("focusout", () => {
         algorithmsDropdown.classList.remove("show");
-        algorithmsDropdownButton.classList.remove("dropdown-active");
+        algorithmsDropdownButton.classList.remove("active");
     });
     speedDropdownButton.addEventListener("click", () => {
         speedDropdown.classList.toggle("show");
-        speedDropdownButton.classList.toggle("dropdown-active");
+        speedDropdownButton.classList.toggle("active");
     });
     speedDropdownButton.addEventListener("focusout", () => {
         speedDropdown.classList.remove("show");
-        speedDropdownButton.classList.remove("dropdown-active");
+        speedDropdownButton.classList.remove("active");
     })
     weightsButton.addEventListener("click", () => {
         isWeight = !isWeight;
+        weightsButton.classList.toggle("active");
     });
     verySlow.addEventListener("click", () => {
         speed = 20;
