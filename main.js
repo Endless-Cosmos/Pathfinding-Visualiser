@@ -29,6 +29,7 @@
     const medium = document.getElementById("medium");
     const fast = document.getElementById("fast");
     const veryFast = document.getElementById("very-fast");
+    const overlay = document.getElementById("overlay");
 
     const rows = 20;
     const cols = 40;
@@ -347,6 +348,7 @@
     });
     modalButton.addEventListener("click", () => {
         modal.classList.add("hide");
+        overlay.classList.add("hide");
     })
 
    
@@ -410,6 +412,7 @@
                 dfs(start, end)
             } else {
                 modal.classList.remove("hide");
+                overlay.classList.remove("hide");
             }
         }
     }
