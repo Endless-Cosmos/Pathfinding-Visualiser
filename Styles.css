@@ -5,7 +5,7 @@
     font-family: "Lato", sans-serif;
 }
 :root {
-    --size: 40;
+    --cols: 40;
 }
 body {
     font-style: sans-serif;
@@ -105,7 +105,7 @@ nav {
 }
 .cell-grid {
     display: grid;
-    grid-template-columns: repeat(var(--size), 1fr);
+    grid-template-columns: repeat(var(--cols), 1fr);
 }
 .cell {
     width: 25px;
