@@ -1,0 +1,23 @@
+{
+  "name": "Pathfinding-Visualiser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "deploy": "gh pages -d Pathfinding-Visualiser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Endless-Cosmos/Pathfinding-Visualiser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Endless-Cosmos/Pathfinding-Visualiser/issues"
+  },
+  "homepage": "https://Endless-Cosmos.github.io/Pathfinding-Visualiser",
+  "dependencies": {
+    "gh-pages": "^3.1.0"
+  }
+}
