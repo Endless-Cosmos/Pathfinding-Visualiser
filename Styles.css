@@ -131,10 +131,6 @@ nav {
 .current {
     background-color: #333;
 }
-.wall {
-    background-color: gray;
-    border: none;
-}
 .weight {
     background-color: rgba(0, 0, 0, .3);  
     border: none;
@@ -143,6 +139,10 @@ nav {
     background-color: yellow;
     animation-duration: 500ms;
     border: 1px solid #999;
+}
+.wall {
+    background-color: gray;
+    border: none;
 }
 .end {
     background-color: red;
