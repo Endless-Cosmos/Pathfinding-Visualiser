@@ -131,10 +131,6 @@ nav {
 .current {
     background-color: #333;
 }
-.wall {
-    background-color: gray;
-    border: none;
-}
 .weight {
     background-color: rgba(0, 0, 0, .3);  
     border: none;
@@ -149,6 +145,10 @@ nav {
 }
 .start {
     background-color: green;
+}
+.wall {
+    background-color: gray;
+    border: none;
 }
 @keyframes grow {
     from {
