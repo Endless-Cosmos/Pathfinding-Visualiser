@@ -1,7 +1,7 @@
 
 import dijkstra from "./dijkstra.js";  
 import aStar from "./a-star.js";  
-import bfs from "/breadth-first-search.js";
+import bfs from "./breadth-first-search.js";
 import greedyBestFirst from "./greedy-best-first-search.js";
 import dfs from "./depth-first-search.js";
 import { addToAnimationNodes } from "./animate.js"
