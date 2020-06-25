@@ -31,8 +31,6 @@ const fast = document.getElementById("fast");
 const veryFast = document.getElementById("very-fast");
 const overlay = document.getElementById("overlay");
 
-const string = "you are a bitch!"; 
-
 const rows = 20;
 const cols = 40;
 export let speed = 5;
