@@ -150,6 +150,10 @@ nav {
 .start {
     background-color: green;
 }
+.wall {
+    background-color: gray;
+    border: none;
+}
 @keyframes grow {
     from {
         transfrom: scale(1);
