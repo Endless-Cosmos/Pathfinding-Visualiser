@@ -31,8 +31,8 @@ const fast = document.getElementById("fast");
 const veryFast = document.getElementById("very-fast");
 const overlay = document.getElementById("overlay");
 
-const rows = 20;
-const cols = 40;
+const rows = 22;
+const cols = 50;
 export let speed = 5;
 
 export function calcDist(node1, node2) {
